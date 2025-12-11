@@ -1,12 +1,10 @@
-
-import { Button } from "@/components/ui/button";
+import { ExternalLink, Github, LayoutDashboard } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/lib/supabase"; // Import our new helper
+import { supabase } from "@/lib/supabase"; 
 import { AddProjectDialog } from "@/components/AddProjectDialog";
-\import { AddProjectDialog } from "@/components/AddProjectDialog";
 
-// Helper to color-code statuses (same as before)
+// Helper to color-code statuses
 const getStatusColor = (status: string) => {
   switch (status) {
     case "active": return "default";
@@ -17,10 +15,9 @@ const getStatusColor = (status: string) => {
   }
 };
 
-// 1. Make the component async so we can await data
 export default async function Dashboard() {
   
-  // 2. Fetch data directly from Supabase
+  // Fetch data directly from Supabase
   const { data: projects, error } = await supabase
     .from('projects')
     .select('*')
@@ -35,16 +32,18 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-8">
+      {/* HEADER: Title on Left, Add Button on Right */}
       <div className="max-w-6xl mx-auto mb-8 flex items-center justify-between">
-        <div><AddProjectDialog />
+        <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Project Incubator</h1>
           <p className="text-slate-500">Manage your 26 ideas, active sites, and dormant projects.</p>
         </div>
-        <>
-         
+        
+        {/* The Add Project Modal Button */}
+        <AddProjectDialog />
       </div>
 
-      {/* STATS */}
+      {/* STATS OVERVIEW */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 gap-4 md:grid-cols-4 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -57,24 +56,30 @@ export default async function Dashboard() {
         </Card>
       </div>
 
-      {/* GRID */}
+      {/* PROJECT GRID */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projectList.map((project) => (
           <Card key={project.id} className="flex flex-col">
             <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-xl truncate pr-2">{project.name}</CardTitle>
-                <Badge variant={getStatusColor(project.status) as any}>
+                <Badge variant={getStatusColor(project.status) as "default" | "secondary" | "outline" | "destructive"}>
                   {project.status}
                 </Badge>
               </div>
               <CardDescription className="line-clamp-2">{project.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
+              {/* Content placeholder */}
             </CardContent>
             <CardFooter className="flex justify-between border-t pt-4 bg-slate-50/50">
               {project.repo ? (
-                <a href={project.repo.startsWith('http') ? project.repo : `https://${project.repo}`} target="_blank" rel="noreferrer" className="text-sm text-slate-500 hover:text-black flex items-center">
+                <a 
+                  href={project.repo.startsWith('http') ? project.repo : `https://${project.repo}`} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="text-sm text-slate-500 hover:text-black flex items-center"
+                >
                   <Github className="mr-1 h-3 w-3" /> Repo
                 </a>
               ) : (
@@ -84,7 +89,12 @@ export default async function Dashboard() {
               )}
 
               {project.url ? (
-                <a href={project.url.startsWith('http') ? project.url : `https://${project.url}`} target="_blank" rel="noreferrer" className="text-sm text-blue-600 hover:underline flex items-center">
+                <a 
+                  href={project.url.startsWith('http') ? project.url : `https://${project.url}`} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="text-sm text-blue-600 hover:underline flex items-center"
+                >
                   Visit Site <ExternalLink className="ml-1 h-3 w-3" />
                 </a>
               ) : (
