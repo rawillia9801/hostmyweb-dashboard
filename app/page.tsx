@@ -1,8 +1,10 @@
-import { ExternalLink, Github, Plus, LayoutDashboard } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase"; // Import our new helper
+import { AddProjectDialog } from "@/components/AddProjectDialog";
+\import { AddProjectDialog } from "@/components/AddProjectDialog";
 
 // Helper to color-code statuses (same as before)
 const getStatusColor = (status: string) => {
@@ -34,13 +36,12 @@ export default async function Dashboard() {
   return (
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="max-w-6xl mx-auto mb-8 flex items-center justify-between">
-        <div>
+        <div><AddProjectDialog />
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Project Incubator</h1>
           <p className="text-slate-500">Manage your 26 ideas, active sites, and dormant projects.</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" /> Add Project
-        </Button>
+        <>
+         
       </div>
 
       {/* STATS */}
